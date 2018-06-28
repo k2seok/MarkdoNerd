@@ -2,76 +2,87 @@
 <html lang="en">
 <head>
 
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <meta charset="UTF-8">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <title>MarkDoNerd</title>
 
+    <style>
+        /*a{*/
+        /*cursor:hand;*/
+        /*}*/
+        div {
+            margin: 0 0;
+            padding: 0 0;
+        }
+
+        .container {
+            background: greenyellow;
+            margin: 0 auto;
+            width: inherit;
+            height: 1500px;
+            text-align: center;
+            border: black 1px solid;
+        }
+
+        #myCategory {
+        }
+
+        #area_1 {
+            width: 100%;
+            height: 5%;
+        }
+
+        #area_2 {
+            width: 100%;
+            height: 80%;
+            background: yellow;
+            overflow: auto;
+        }
+
+        #area_3 {
+            width: 100%;
+            height: 10%;
+
+        }
+
+        #bills {
+            width: 80%;
+            height: 100%;
+            background: white;
+            float: left;
+        }
+
+        #confirm {
+            width: 20%;
+            height: 100%;
+            background: lemonchiffon;
+            float: right;
+        }
+
+        #confirm button {
+            width: 100%;
+            height: 50%;
+            display: block;
+        }
+
+        .card {
+            width: 30%;
+            height: content-box;
+            margin: 2px 2px;
+            /*border: aquamarine solid 1px;*/
+            float: left;
+            display: inline-block;
+
+        }
+
+
+    </style>
 </head>
 
-<style>
-    .container {
-        background: greenyellow;
-        margin: 0 auto;
-        padding: 0 0;
-        width: inherit;
-        height: 1500px;
-        text-align: center;
-    }
-
-    #myCategory {
-    }
-
-    #area_1 {
-        width: inherit;
-        height: 5%;
-    }
-
-    #area_2 {
-        width: inherit;
-        height: 80%;
-        background: yellow;
-        overflow: auto;
-    }
-
-    #area_3 {
-        width: inherit;
-        height: 15%;
-
-    }
-
-    #bills {
-        width: 80%;
-        height: 100%;
-        background: white;
-        float: left;
-    }
-
-    #confirm {
-        width: 20%;
-        height: 100%;
-        background: lemonchiffon;
-        float: right;
-    }
-    #confirm button{
-        width: 100%;
-        height: 50%;
-        display: block;
-    }
-
-
-    .card {
-        width: 30%;
-        height: content-box;
-        margin: 2px 2px;
-        /*border: aquamarine solid 1px;*/
-        float: left;
-        display: inline-block;
-
-    }
-
-
-</style>
 <body>
 
 <div class="container">
@@ -118,7 +129,20 @@
 </div>
 
 <script>
-    init(1);
+    init();
+
+    $(document).ready(function () {
+
+        $('span[name="menu1"]').click(function () {
+            $('#myCategory .nav-item .nav-link').removeClass('active');
+            $(this).addClass('active');
+
+            $.get("menu1.html", function (data) {
+                $('#area_2').html($(data).fadeIn(2000));
+            });
+        });
+    });
+
 
     function init() {
         makeCategory('myCategory', '세트', 'nav-link  ', 'menu1');
@@ -131,12 +155,14 @@
 
     };
 
-    function makeCategory(parent, view, className, link) {
+    function makeCategory(parent, view, className, name) {
         var doc = document.querySelector('ul[id="' + parent + '"]');
         var result = '<li class="nav-item">';
-        result += ' <a class="' + className + '" href="/category?=' + link + '">';
+        result += '<span class="' + className + '"';
+        result += ' name= "' + name +'">';
+        //'href="/category?=' + link + '">';
         result += view;
-        result += '</a>';
+        result += '</span>';
         result += '</li>';
         doc.innerHTML += result;
     };
@@ -167,9 +193,18 @@
         //추가한 상품 모두 제거
         document.querySelector('div[id="bills"]').innerHTML = '';
     }
+
     function orderAll() {
         alert('결제 하시겠습니까?');
     }
+
+    // function changeCategory(link) {
+    //     alert(link);
+    //     $.get(link + ".html", function (data) {
+    //         $('#area_2').html($(data).fadeIn());
+    //     });
+    //
+    // }
 </script>
 
 
