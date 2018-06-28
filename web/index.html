@@ -22,8 +22,8 @@
         .container {
             background: greenyellow;
             margin: 0 auto;
-            width: inherit;
-            height: 1500px;
+            width: 100%;
+            height: 2000px;
             text-align: center;
             border: black 1px solid;
         }
@@ -31,19 +31,19 @@
         #myCategory {
         }
 
-        #area_1 {
+        #area_header {
             width: 100%;
             height: 5%;
         }
 
-        #area_2 {
+        #area_body {
             width: 100%;
             height: 80%;
             background: yellow;
             overflow: auto;
         }
 
-        #area_3 {
+        #area_footer {
             width: 100%;
             height: 10%;
 
@@ -54,6 +54,7 @@
             height: 100%;
             background: white;
             float: left;
+            overflow: auto;
         }
 
         #confirm {
@@ -71,7 +72,7 @@
 
         .card {
             width: 30%;
-            height: content-box;
+            height: auto;
             margin: 2px 2px;
             /*border: aquamarine solid 1px;*/
             float: left;
@@ -85,37 +86,43 @@
 
 <body>
 
-<div class="container">
+<div class="container ">
     <h1>Order Now!</h1>
-    <div id="area_1">
+    <div id="area_header">
         <ul id="myCategory" class="nav nav-tabs nav-fill">
         </ul>
     </div>
-    <div id="area_2">
-
-        <div class="card" onclick="addOrder()">
-            <img class="card-img-top"
-                 src="http://ytnradio.us/upload/news/2017317103930.jpg"
-            >
-            <div class="card-body">
-                <label class="myItem">치즈버거</label>
-                <label class="myContent">치즈버거를 먹어보지 않은 자.<br> 내게 돌을 던져라. 버거복음 1.1 </label>
-                <label class="myPrice">1000원</label>
+    <div id="area_body">
+        <section id="menu1">
+            <div class="card" onclick="addOrder()">
+                <img class="card-img-top"
+                     src="http://ytnradio.us/upload/news/2017317103930.jpg"
+                >
+                <div class="card-body">
+                    <label class="myItem">치즈버거</label>
+                    <label class="myContent">치즈버거를 먹어보지 않은 자.<br> 내게 돌을 던져라. 버거복음 1.1 </label>
+                    <label class="myPrice">1000원</label>
+                </div>
             </div>
-        </div>
-        <div class="card" onclick="addOrder()">
-            <img class="card-img-top"
-                 src="http://mblogthumb4.phinf.naver.net/MjAxNzA3MTRfMTcg/MDAxNDk5OTgyMjE3NzE3.Iv_NhtPbSYpSs1_7ODub2udfWufXPeoK_eqSwEhryaIg.VOiKobhkofez308WCLsIsygpuvCnosirnFeb4PCPS50g.JPEG.zooni77/%EB%A7%A5%EB%8F%84%EB%82%A0%EB%93%9C_%ED%96%84%EB%B2%84%EA%B1%B0%EB%B3%91_%282%29.jpg?type=w800"
-                 alt="Card image cap">
-            <div class="card-body">
-                <label class="myItem">치즈버거</label>
-                <label class="myContent">치즈버거를 먹어보지 않은 자.<br> 내게 돌을 던져라. 버거복음 1.1 </label>
-                <label class="myPrice">1000원</label>
+            <div class="card" onclick="addOrder()">
+                <img class="card-img-top"
+                     src="http://mblogthumb4.phinf.naver.net/MjAxNzA3MTRfMTcg/MDAxNDk5OTgyMjE3NzE3.Iv_NhtPbSYpSs1_7ODub2udfWufXPeoK_eqSwEhryaIg.VOiKobhkofez308WCLsIsygpuvCnosirnFeb4PCPS50g.JPEG.zooni77/%EB%A7%A5%EB%8F%84%EB%82%A0%EB%93%9C_%ED%96%84%EB%B2%84%EA%B1%B0%EB%B3%91_%282%29.jpg?type=w800"
+                     alt="Card image cap">
+                <div class="card-body">
+                    <label class="myItem">치즈버거</label>
+                    <label class="myContent">치즈버거를 먹어보지 않은 자.<br> 내게 돌을 던져라. 버거복음 1.1 </label>
+                    <label class="myPrice">1000원</label>
+                </div>
             </div>
-        </div>
 
+        </section>
+        <section id="menu2">
+
+        </section>
+
+        <section id="menu3"></section>
     </div>
-    <div id="area_3">
+    <div id="area_footer">
         <div id="bills">
 
         </div>
@@ -129,28 +136,44 @@
 </div>
 
 <script>
+    var STOCK_OVER = '재고 소진';
     init();
 
     $(document).ready(function () {
+        //section load후 모두 숨김
 
-        $('span[name="menu1"]').click(function () {
-            $('#myCategory .nav-item .nav-link').removeClass('active');
+
+        $('.nav-link').click(function () {
+            $('.nav-link').removeClass('active');
             $(this).addClass('active');
-
-            $.get("menu1.html", function (data) {
-                $('#area_2').html($(data).fadeIn(2000));
-            });
+            $('section').hide();
+            $('section:eq(' + $(".nav-link").index(this) + ')').fadeIn(800);
+            // $(this)
+            // $.get("data/" + $(this).name + ".json", function (data) {
+            //     $('section').html($(data).fadeIn(2000));
+            // });
         });
     });
 
 
     function init() {
-        makeCategory('myCategory', '세트', 'nav-link  ', 'menu1');
-        makeCategory('myCategory', '단품', 'nav-link active', 'menu2');
+        // 시작 시 깜빡 거림 방지위해 최상단 작성
+        $('section').hide();
+
+        makeCategory('myCategory', '세트', 'nav-link ', 'menu1');
+        makeCategory('myCategory', '단품', 'nav-link ', 'menu2');
         makeCategory('myCategory', '기타', 'nav-link ', 'menu3');
 
-        makeMenu('area_2', '폭탄버거', 'img/img.jpg', 5000, 'red', '고기 한장 + 한장 합이 2장! <br> 맛도 2배!! 열량도 2배!!');
-        makeMenu('area_2', '너드버거', 'img/img2.jpg', 3000, 'green');
+        // 세트메뉴 추가
+        $.get("data/menu1.json", function (data) {
+            $(data).each(function (index, item) {
+                makeMenu('menu1', item.name, 'img/' + item.img, item.price, item.content, 'white', item.stock );
+            });
+        });
+
+        makeMenu('menu2', '폭탄버거', 'img/img.jpg', 5000, '고기 한장 + 한장 합이 2장! <br> 맛도 2배!! 열량도 2배!!', 'red');
+        makeMenu('menu2', '너드버거', 'img/img2.jpg', 3000, 'red', 'green');
+
 
 
     };
@@ -159,7 +182,7 @@
         var doc = document.querySelector('ul[id="' + parent + '"]');
         var result = '<li class="nav-item">';
         result += '<span class="' + className + '"';
-        result += ' name= "' + name +'">';
+        result += ' value= "' + name + '">';
         //'href="/category?=' + link + '">';
         result += view;
         result += '</span>';
@@ -167,9 +190,8 @@
         doc.innerHTML += result;
     };
 
-    function makeMenu(parent, view, img, price, background, content) {
-        var doc = document.querySelector('div[id="' + parent + '"]');
-
+    function makeMenu(parent, view, img, price, content, background, value1) {
+        var doc = document.querySelector('#' + parent);
         var result = '<div class="card" onclick="addOrder()"';
         result += background != null ? (' style="background:' + background + ';">') : '>';
         result += ' <img class="card-img-top"';
@@ -178,15 +200,17 @@
         result += '<div class="card-body">';
         result += '<label class="label">' + view + '</label> ';
         result += content != null ? '<label class="label">' + content + '</label> ' : '';
-        result += '<label class="label">' + price + '</label> ';
+        result += '<span class="label">' + price + ' 원 </span><br><br> ';
+        result += '<span>' + (value1 < 1 || value1 == null ? STOCK_OVER : value1 + ' 개 남음') + '</span>';
         result += '</div> </div>';
-
         doc.innerHTML += result;
     }
 
     function addOrder(value) {
         // 상품을 결제화면에 추가한다.
-        makeMenu('bills', '치즈버거', 'myImage_1', 1000, 'red');
+        // if(addOrder().caller != null)
+        //     alert(addOrder().caller);
+        makeMenu('bills', '치즈버거', 'img/q1.jpg', 1000, '', 'red');
     }
 
     function removeAll() {
@@ -197,14 +221,6 @@
     function orderAll() {
         alert('결제 하시겠습니까?');
     }
-
-    // function changeCategory(link) {
-    //     alert(link);
-    //     $.get(link + ".html", function (data) {
-    //         $('#area_2').html($(data).fadeIn());
-    //     });
-    //
-    // }
 </script>
 
 
